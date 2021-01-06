@@ -1,0 +1,93 @@
+---
+kind: pipeline
+type: docker
+name: default-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: build
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    tags: 1.0.0-linux-arm64
+    repo: linutux/vlmcsd
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+trigger:
+  branch:
+  - main
+  event:
+  - push
+
+---
+kind: pipeline
+type: docker
+name: default-amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    tags: 1.0.0-linux-amd64
+    repo: linutux/vlmcsd
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+trigger:
+  branch:
+  - main
+  event:
+  - push
+---
+kind: pipeline
+type: docker
+name: manifest
+
+steps:
+- name: manifest
+  image: plugins/manifest
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: linutux/vlmcsd:1.0.0
+    template: linutux/vlmcsd:1.0.0-OS-ARCH
+    platforms:
+      - linux/arm64
+      - linux/amd64
+
+- name: manifest-latest
+  image: plugins/manifest
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: linutux/vlmcsd:latest
+    template: linutux/vlmcsd:1.0.0-OS-ARCH
+    platforms:
+      - linux/arm64
+      - linux/amd64
+
+depends_on:
+- default-arm64
+- default-amd64
+---
+kind: signature
+hmac: 2779b6c41d8dbf1c69736140cde212ccb699b3e2a25e7ffc9e63c2526caf267f
+
+...
