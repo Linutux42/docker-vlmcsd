@@ -88,6 +88,6 @@ depends_on:
 - default-amd64
 ---
 kind: signature
-hmac: 2779b6c41d8dbf1c69736140cde212ccb699b3e2a25e7ffc9e63c2526caf267f
+hmac: bc2c91f212c8a7aeaf487e5532f0d2b01b8407418549d9611bb8c5ee36da2cbd
 
 ...
