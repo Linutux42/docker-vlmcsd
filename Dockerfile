@@ -1,6 +1,6 @@
 FROM debian:buster-slim as builder
 WORKDIR /root
-RUN apt-get update && apt-get install git make build-essential && \
+RUN apt-get update && apt-get install -y git make build-essential && \
     git clone --branch master --single-branch https://github.com/Wind4/vlmcsd.git && \
     cd vlmcsd/ && \
     make
