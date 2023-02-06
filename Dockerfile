@@ -7,7 +7,6 @@ RUN apt-get update && \
     make
 
 FROM debian:bullseye-slim
-WORKDIR /root/
-COPY --from=builder /root/vlmcsd/bin/vlmcsd /usr/bin/vlmcsd
+COPY --from=builder /vlmcsd/bin/vlmcsd /usr/bin/vlmcsd
 EXPOSE 1688/tcp
 CMD [ "/usr/bin/vlmcsd", "-D", "-d" ]
